@@ -27,31 +27,25 @@ Stats insertionSorting(std::vector<T>& a) {
 
 // Быстрая сортировка
 template<typename T>
-int partition(std::vector<T>& arr, int low, int high, Stats& stats) {
-    int pivot = arr[low];
-    int i = low + 1;
-    int j = high;
+int partition(std::vector<T>& a, int start, int end, Stats& stats) {
+    int pivot = a[end];
+    int pIndex = start;
 
-    while (true) {
-        while (arr[i] < pivot) {
-            i++;
-            stats.comparison_count++;
+    for (int i = start; i < end; i++)
+    {
+        stats.comparison_count++;
+        if (a[i] <= pivot)
+        {
+            stats.copy_count++;
+            std::swap(a[i], a[pIndex]);
+            pIndex++;
         }
-
-        while (arr[j] > pivot) {
-            j--;
-            stats.comparison_count++;
-        }
-
-        if (i >= j) {
-            break;
-        }
-        stats.copy_count++;
-        std::swap(arr[i], arr[j]);
     }
-    stats.copy_count++;
-    std::swap(arr[low], arr[j]);
-    return j;
+
+    stats.comparison_count++;
+    std::swap(a[pIndex], a[end]);
+
+    return pIndex;
 }
 
 template<typename T>
@@ -122,5 +116,6 @@ Stats naturialTwoWayMergeSorting(std::vector<T>& a) {
     countAndSorting(a, 0, a.size() - 1, stats);
     return stats;
 }
+
 
 #endif
