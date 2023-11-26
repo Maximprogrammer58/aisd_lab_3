@@ -18,4 +18,18 @@ std::vector<int> generateRandomVector(int min, int max, size_t length) {
     return vec;
 }
 
+std::vector<int> generateSortedVector(size_t length) {
+    std::vector<int> vec;
+    for (size_t i = 1; i <= length; ++i)
+        vec.push_back(i);
+    return vec;
+}
+
+std::vector<int> generateReverseSortedVector(size_t length) {
+    std::vector<int> vec;
+    for (size_t i = length; i > 0; --i)
+        vec.push_back(i);
+    return vec;
+}
+
 #endif
