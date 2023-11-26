@@ -5,7 +5,7 @@
 #include "../include/Stats.h"
 
 
-// Сортировка вставками
+// InsertionSorting
 template<typename T>
 Stats insertionSorting(std::vector<T>& a) {
     Stats stats;
@@ -24,7 +24,7 @@ Stats insertionSorting(std::vector<T>& a) {
 }
 
 
-// Быстрая сортировка
+// QuickSorting
 template<typename T>
 int partition(std::vector<T>& a, int start, int end, Stats& stats) {
     int pivot = a[end];
@@ -35,7 +35,7 @@ int partition(std::vector<T>& a, int start, int end, Stats& stats) {
         stats.comparison_count++;
         if (a[i] <= pivot)
         {
-            stats.copy_count+=2;
+            stats.copy_count += 2;
             std::swap(a[i], a[pIndex]);
             pIndex++;
         }
@@ -64,7 +64,7 @@ Stats quickSorting(std::vector<T>& arr) {
 }
 
 
-// Сортировка естественным двухпутевым слиянием
+// Naturial two-way merge sort
 template <typename T>
 void merge(std::vector<T>& a, size_t left, size_t mid, size_t right, Stats& stats) {
     size_t i = left;
