@@ -6,41 +6,41 @@
 #include <vector>
 
 class User {
-	std::string name;
-	size_t age;
+	std::string name_;
+	size_t age_;
 
 public:
-	User(std::string name, size_t age) : name(name), age(age) {}
+	User(std::string name, size_t age) : name_(name), age_(age) {}
 
 	User(const User& other) {
-		name = other.name;
-		age = other.age;
+		name_ = other.name_;
+		age_ = other.age_;
 	}
 
-	std::string get_name() const {
-		return name;
+	std::string getName() const {
+		return name_;
 	}
 
-	size_t get_age() const {
-		return age;
+	size_t getAge() const {
+		return age_;
 	}
 
 	bool operator==(const User& other) const {
-		return ((name == other.name) && (age == other.age));
+		return ((name_ == other.name_) && (age_ == other.age_));
 	}
 
 	bool operator<(const User& other) const {
-		return ((name < other.name) || ((name == other.name) && (age < other.age)));
+		return ((name_ < other.name_) || ((name_ == other.name_) && (age_ < other.age_)));
 	}
 
 	bool operator>=(const User& other) const {
-		return ((name >= other.name) || ((name == other.name) && (age >= other.age)));
+		return ((name_ >= other.name_) || ((name_ == other.name_) && (age_ >= other.age_)));
 	}
 };
 
 std::ostream& operator<<(std::ostream& stream, const User& user)
 {
-	stream << "(" << user.get_name() << ", " << user.get_age() << ")";
+	stream << "(" << user.getName() << ", " << user.getAge() << ")";
 	return stream;
 }
 
