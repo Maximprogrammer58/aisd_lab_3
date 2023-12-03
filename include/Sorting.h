@@ -14,7 +14,7 @@ Stats insertionSorting(std::vector<T>& a) {
     for (size_t i = 1; i < size; ++i) {
         for (size_t j = i; j > 0; j--) {
             stats.comparison_count++;
-            if (a[j - 1] < a[j]) 
+            if (a[j - 1] < a[j])
                 break;
             stats.copy_count += 2;
             std::swap(a[j - 1], a[j]);
@@ -65,54 +65,113 @@ Stats quickSorting(std::vector<T>& arr) {
 
 
 // Naturial two-way merge sort
-template <typename T>
-void merge(std::vector<T>& a, size_t left, size_t mid, size_t right, Stats& stats) {
-    size_t i = left;
-    size_t j = mid + 1;
-    std::vector<T> temp;
-    while (i <= mid && j <= right) {
+template<typename T>
+void merge(std::vector<T>& arr, size_t left, size_t mid, size_t right, Stats& stats) {
+    size_t n1 = mid - left + 1;
+    size_t n2 = right - mid;
+
+    std::vector<T> leftArr(n1), rightArr(n2);
+
+    stats.comparison_count++;
+    for (size_t i = 0; i < n1; i++) {
+        leftArr[i] = arr[left + i];
+        stats.copy_count++;
         stats.comparison_count++;
-        if (a[i] < a[j]) {
-            temp.push_back(a[i++]);
+    }
+
+    stats.comparison_count++;
+    for (size_t j = 0; j < n2; j++) {
+        rightArr[j] = arr[mid + 1 + j];
+        stats.copy_count++;
+    }
+
+    size_t i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        stats.comparison_count += 2;
+        if (leftArr[i] <= rightArr[j]) {
+            stats.comparison_count++;
+            arr[k] = leftArr[i];
             stats.copy_count++;
+            i++;
         }
         else {
-            temp.push_back(a[j++]);
+            stats.comparison_count++;
+            arr[k] = rightArr[j];
             stats.copy_count++;
+            j++;
+        }
+        k++;
+    }
+
+    if (i >= n1)
+        stats.comparison_count++;
+    else
+        stats.comparison_count += 2;
+
+    stats.comparison_count++;
+    while (i < n1) {
+        stats.comparison_count++;
+        arr[k] = leftArr[i];
+        stats.copy_count++;
+        i++;
+        k++;
+    }
+
+    stats.comparison_count++;
+    while (j < n2) {
+        stats.comparison_count++;
+        arr[k] = rightArr[j];
+        stats.copy_count++;
+        j++;
+        k++;
+    }
+}
+
+template<typename T>
+Stats naturialTwoWayMergeSorting(std::vector<T>& arr) {
+    Stats stats;
+    size_t n = arr.size();
+
+    while (true) {
+        size_t left = 0;
+        stats.comparison_count++;
+        while (left < n) {
+            stats.comparison_count++;
+            size_t mid = left;
+            
+            while (mid + 1 < n && arr[mid] <= arr[mid + 1]) {
+                stats.comparison_count += 2;
+                mid++;
+            }
+
+            if (mid + 1 >= n)
+                stats.comparison_count++;
+            else
+                stats.comparison_count += 2;
+
+            stats.comparison_count++;
+            if (mid == n - 1) 
+                return stats;
+
+            size_t right = mid + 1;
+
+
+            while (right + 1 < n && arr[right] <= arr[right + 1]) {
+                stats.comparison_count += 2;
+                right++;
+            }
+
+            if (right + 1 >= n)
+                stats.comparison_count++;
+            else
+                stats.comparison_count += 2;
+            
+            merge(arr, left, mid, right, stats);
+
+            left = right + 1;
         }
     }
 
-    while (i <= mid) {
-        temp.push_back(a[i++]);
-        stats.copy_count++;
-    }
-
-    while (j <= right) {
-        temp.push_back(a[j++]);
-        stats.copy_count++;
-    }
-
-    for (size_t i = left; i <= right; ++i) {
-        a[i] = temp[i - left];
-        stats.copy_count++;
-    }
-}
-
-template<typename T>
-void MergeSorting(std::vector<T>& a, size_t left, size_t right, Stats& stats) {
-    if (left < right) {
-        size_t mid = left + (right - left) / 2;
-        MergeSorting(a, left, mid, stats);
-        MergeSorting(a, mid + 1, right, stats);
-
-        merge(a, left, mid, right, stats);
-    }
-}
-
-template<typename T>
-Stats naturialTwoWayMergeSorting(std::vector<T>& a) {
-    Stats stats;
-    MergeSorting(a, 0, a.size() - 1, stats);
     return stats;
 }
 

@@ -23,6 +23,6 @@ int main() {
     stats = naturialTwoWayMergeSorting(users);
     std::cout << users;
     std::cout << stats;
-
+    
     return 0;
 }

@@ -10,6 +10,8 @@ class User {
 	size_t age_;
 
 public:
+	User() : name_(""), age_(0) {}
+
 	User(std::string name, size_t age) : name_(name), age_(age) {}
 
 	User(const User& other) {
@@ -35,6 +37,14 @@ public:
 
 	bool operator>=(const User& other) const {
 		return ((name_ >= other.name_) || ((name_ == other.name_) && (age_ >= other.age_)));
+	}
+
+	bool operator<=(const User& other) const {
+		return ((name_ <= other.name_) || ((name_ == other.name_) && (age_ <= other.age_)));
+	}
+
+	bool operator>(const User& other) const {
+		return ((name_ > other.name_) || ((name_ == other.name_) && (age_ > other.age_)));
 	}
 };
 
